@@ -1,18 +1,21 @@
-import axios from "axios";
 import React from "react";
-import useSWR from "swr";
-import PostCard from "../components/post/PostCard";
+import { useParams } from "react-router-dom";
 import { PostType } from "../components/post/type";
+import PostCard from "../components/post/PostCard";
+import useSWR from "swr";
+import axios from "axios";
 
-const fetcher = async (url: string): Promise<PostType[]> => {
-  const response = await axios.get(url);
-  return response.data.data;
-};
-
-const HomePage = () => {
+const CategoryDetail = () => {
+  const { slug } = useParams();
+  console.log("slug - ", slug);
   const { data, error, isLoading } = useSWR(
-    "http://localhost:8080/news",
-    fetcher
+    `${slug}`,
+    async (): Promise<PostType[]> => {
+      const response = await axios.post("http://localhost:8080/news/category", {
+        category: slug,
+      });
+      return response.data.data;
+    }
   );
   if (error)
     return (
@@ -32,4 +35,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default CategoryDetail;

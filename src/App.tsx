@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import LayoutCommon from "./layout/LayoutCommon";
 const HomePage = lazy(() => import("./pages/HomePage"));
+const CategoryDetail = lazy(() => import("./pages/CategoryDetail"));
+const PostDetail = lazy(() => import("./pages/PostDetail"));
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LayoutCommon></LayoutCommon>}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/:slug" element={<CategoryDetail />} />
+          <Route path="/post" element={<PostDetail />} />
         </Route>
       </Routes>
     </Suspense>
